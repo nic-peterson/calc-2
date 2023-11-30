@@ -2,6 +2,8 @@ const body = document.querySelector("body");
 const h1 = document.createElement("h1");
 h1.innerText = "Hello World!";
 
+let firstNum, secondNum, operator;
+
 body.appendChild(h1);
 
 const add = function (x, y) {
