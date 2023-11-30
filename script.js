@@ -1,11 +1,3 @@
-const body = document.querySelector("body");
-const h1 = document.createElement("h1");
-h1.innerText = "Hello World!";
-
-let firstNum, secondNum, operator;
-
-body.appendChild(h1);
-
 const add = function (x, y) {
   return x + y;
 };
@@ -30,7 +22,7 @@ const operate = function (operator, x, y) {
       return subtract(x, y);
     case "multiply":
       return multiply(x, y);
-    case "divide":
+    case "divides":
       return divide(x, y);
   }
 };
