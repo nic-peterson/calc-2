@@ -12,14 +12,20 @@
       <div class="calculator">
         <div class="display"></div>
         <div class="keys">
-          <button class="key-operator">+</button>
-          <button class="key-operator">-</button>
-          <button class="key-operator">×</button>
-          <button class="key-operator">÷</button>
+          <button class="key-operator" onclick="setOperator('add')">+</button>
+          <button class="key-operator" onclick="setOperator('subtract')">
+            -
+          </button>
+          <button class="key-operator" onclick="setOperator('multiply')">
+            ×
+          </button>
+          <button class="key-operator" onclick="setOperator('divide')">
+            ÷
+          </button>
           <button onclick="calcInput(7)">7</button>
           <button onclick="calcInput(8)">8</button>
           <button onclick="calcInput(9)">9</button>
-          <button class="key-equals">=</button>
+          <button class="key-equals" onclick="evaluateOp()">=</button>
           <button onclick="calcInput(4)">4</button>
           <button onclick="calcInput(5)">5</button>
           <button onclick="calcInput(6)">6</button>
