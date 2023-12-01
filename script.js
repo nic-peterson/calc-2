@@ -17,7 +17,8 @@ function multiply(x, y) {
 
 function divide(x, y) {
   if (y === 0) {
-    return "ERROR - Cannot Divide by Zero";
+    displayError("ERROR - Cannot Divide by 0");
+    return;
   }
   return x / y;
 }
@@ -40,18 +41,29 @@ function operate(operator, x, y) {
   }
 }
 
-function calcInput(value) {
-  if (display.textContent.length > 9 && value !== "clear") {
-    display.textContent = "ERROR";
-  } else if (value === "clear") {
-    clearDisplay();
-  } else {
-    if (display.textContent === "0") {
-      display.textContent = value;
-    } else {
-      display.textContent += value;
-    }
+function validateInput(value) {
+  if (display.textContent.length > 7 && value !== "clear") {
+    displayError("ERROR - Too Many Digits");
   }
+}
+
+function displayError(error) {
+  display.textContent = error;
+}
+
+function updateDisplay(value, incr) {
+  if (value === "clear") {
+    clearDisplay();
+  } else if (incr) {
+    display.textContent += value;
+  } else {
+    display.textContent = value;
+  }
+}
+
+function calcInput(value) {
+  validateInput(value);
+  updateDisplay(value, display.textContent !== "0");
 }
 
 function setNum(num) {
