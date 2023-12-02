@@ -51,6 +51,10 @@ function displayError(error) {
   display.textContent = error;
 }
 
+function setDisplay(value) {
+  display.textContent = value;
+}
+
 function updateDisplay(value, incr) {
   if (value === "clear") {
     clearDisplay();
@@ -85,38 +89,24 @@ function setNum(num) {
 function setOperator(operatorChoice) {
   operator = operatorChoice;
   if (x === undefined) {
-    if (display.textContent.includes(".")) {
-      x = parseFloat(display.textContent);
-    } else {
-      x = parseInt(display.textContent);
-    }
+    setNum("x");
   } else {
     evaluateOp();
   }
   clearDisplay();
-
   console.log("setOperator");
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
 }
 
 function evaluateOp() {
-  setNum("x");
-  console.log(`x: ${x}`);
   setNum("y");
-  console.log(`y: ${y}`);
-  /*
-  setNum(y);
+  clearDisplay();
+  setDisplay(y);
 
-  if (display.textContent.includes(".")) {
-    y = parseFloat(display.textContent);
-  } else {
-    y = parseInt(display.textContent);
-  }
+  setDisplay(operate(operator, x, y));
 
-  display.textContent = operate(operator, x, y);
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
   console.log(`x {type: ${typeof x}}: ${x} y {type: ${typeof y}}: ${y}`);
-  */
 }
 
 // Test
