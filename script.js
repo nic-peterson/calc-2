@@ -67,14 +67,19 @@ function calcInput(value) {
 }
 
 function setNum(num) {
-  console.log("setNum");
-  console.log(`num: ${num}`);
-  if (display.textContent.includes(".")) {
-    num = parseFloat(display.textContent);
-  } else {
-    num = parseInt(display.textContent);
+  if (num === "x") {
+    if (display.textContent.includes(".")) {
+      x = parseFloat(display.textContent);
+    } else {
+      x = parseInt(display.textContent);
+    }
+  } else if (num === "y") {
+    if (display.textContent.includes(".")) {
+      y = parseFloat(display.textContent);
+    } else {
+      y = parseInt(display.textContent);
+    }
   }
-  console.log(`num: ${num}`);
 }
 
 function setOperator(operatorChoice) {
@@ -95,6 +100,11 @@ function setOperator(operatorChoice) {
 }
 
 function evaluateOp() {
+  setNum("x");
+  console.log(`x: ${x}`);
+  setNum("y");
+  console.log(`y: ${y}`);
+  /*
   setNum(y);
 
   if (display.textContent.includes(".")) {
@@ -106,4 +116,7 @@ function evaluateOp() {
   display.textContent = operate(operator, x, y);
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
   console.log(`x {type: ${typeof x}}: ${x} y {type: ${typeof y}}: ${y}`);
+  */
 }
+
+// Test
