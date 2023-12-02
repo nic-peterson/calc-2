@@ -1,4 +1,5 @@
 // Global Variables for Calculator
+const MAX_DISPLAY_LENGTH = 10; // Max number of digits to display
 let display = document.querySelector(".display");
 let x, y, operator;
 
@@ -18,7 +19,7 @@ function multiply(x, y) {
 function divide(x, y) {
   if (y === 0) {
     console.log("ERROR - Cannot Divide by 0");
-    // updateDisplay("ERROR", true);
+    updateDisplay("ERROR", true);
     // displayError("ERROR - Cannot Divide by 0");
     return "ERROR - Cannot Divide by 0";
   }
@@ -26,10 +27,76 @@ function divide(x, y) {
 }
 
 // Calculator Functions
+
+// -> Updating Display
+function updateDisplay(updateType, value) {
+  switch (updateType) {
+    case "clear":
+      clearDisplay();
+      break;
+    case "addNumber":
+      addNumberToDisplay(value);
+      break;
+    case "calculateResult":
+      setCalculationResult(value);
+      break;
+    case "error":
+      displayError(value);
+      break;
+    default:
+      console.error("Invalide update type");
+  }
+}
+
 function clearDisplay() {
   display.textContent = "";
 }
 
+function addNumberToDisplay(num) {
+  let currentValue = display.textContent;
+  if (currentValue.length < MAX_DISPLAY_LENGTH) {
+    display.textContent = currentValue === "0" ? num : currentValue + num;
+  } else {
+    updateDisplay("error", "ERROR - Too Many Digits");
+  }
+}
+
+function displayError(error) {
+  display.textContent = error;
+}
+
+function setCalculationResult(result) {
+  let resultStr = String(result);
+  if (resultStr.length > MAX_DISPLAY_LENGTH) {
+    // Handle long results (e.g., rounding, exponential notation)
+    resultStr = handleLongResult(resultStr);
+  }
+  display.textContent = result;
+}
+
+function handleLongResult(resultStr) {
+  // TODO
+  // Implement logic to handle long results (e.g., rounding, using toExponential)
+  // Example: return a rounded or formatted number
+  return parseFloat(resultStr).toPrecision(MAX_DISPLAY_LENGTH - 1);
+}
+
+// -> User Input
+// TODO
+function validateInput(value) {
+  if (display.textContent.length > 7 && value !== "clear") {
+    clearDisplay();
+    updateDisplay("error", "ERROR - Too Many Digits");
+  }
+}
+
+// TODO
+function calcInput(value) {
+  validateInput(value);
+  updateDisplay("addNumber", value);
+}
+
+// Operations
 function operate(operator, x, y) {
   switch (operator) {
     case "add":
@@ -43,37 +110,7 @@ function operate(operator, x, y) {
   }
 }
 
-function validateInput(value) {
-  if (display.textContent.length > 7 && value !== "clear") {
-    displayError("ERROR - Too Many Digits");
-  }
-}
-
-function displayError(error) {
-  setDisplay(error);
-}
-
-function setDisplay(value) {
-  clearDisplay;
-  display.textContent = value;
-}
-
-function updateDisplay(value, isConcat) {
-  clearDisplay();
-  if (value === "clear") {
-    clearDisplay();
-  } else if (isConcat) {
-    display.textContent += value;
-  } else {
-    display.textContent = value;
-  }
-}
-
-function calcInput(value) {
-  validateInput(value);
-  updateDisplay(value, display.textContent !== "0");
-}
-
+// TODO -> Need to figure out logic for complex operations
 function setNum(num) {
   if (num === "x") {
     if (display.textContent.includes(".")) {
@@ -90,6 +127,7 @@ function setNum(num) {
   }
 }
 
+// TODO -> Need to figure out logic for complex operations
 function setOperator(operatorChoice) {
   operator = operatorChoice;
   if (x === undefined) {
@@ -102,6 +140,7 @@ function setOperator(operatorChoice) {
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
 }
 
+// TODO -> Need to figure out logic for complex operations
 function evaluateOp() {
   setNum("y");
   clearDisplay();
@@ -113,5 +152,3 @@ function evaluateOp() {
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
   console.log(`x {type: ${typeof x}}: ${x} y {type: ${typeof y}}: ${y}`);
 }
-
-// Test
