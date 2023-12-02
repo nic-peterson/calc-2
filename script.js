@@ -17,8 +17,10 @@ function multiply(x, y) {
 
 function divide(x, y) {
   if (y === 0) {
-    displayError("ERROR - Cannot Divide by 0");
-    return;
+    console.log("ERROR - Cannot Divide by 0");
+    // updateDisplay("ERROR", true);
+    // displayError("ERROR - Cannot Divide by 0");
+    return "ERROR - Cannot Divide by 0";
   }
   return x / y;
 }
@@ -48,17 +50,19 @@ function validateInput(value) {
 }
 
 function displayError(error) {
-  display.textContent = error;
+  setDisplay(error);
 }
 
 function setDisplay(value) {
+  clearDisplay;
   display.textContent = value;
 }
 
-function updateDisplay(value, incr) {
+function updateDisplay(value, isConcat) {
+  clearDisplay();
   if (value === "clear") {
     clearDisplay();
-  } else if (incr) {
+  } else if (isConcat) {
     display.textContent += value;
   } else {
     display.textContent = value;
@@ -101,9 +105,10 @@ function setOperator(operatorChoice) {
 function evaluateOp() {
   setNum("y");
   clearDisplay();
-  setDisplay(y);
+  updateDisplay(y, false);
+  // setDisplay(y);
 
-  setDisplay(operate(operator, x, y));
+  setDisplay(operate(operator, x, y), false);
 
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
   console.log(`x {type: ${typeof x}}: ${x} y {type: ${typeof y}}: ${y}`);
