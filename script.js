@@ -1,29 +1,32 @@
 // Global Variables for Calculator
 const MAX_DISPLAY_LENGTH = 10; // Max number of digits to display
 let display = document.querySelector(".display");
-let x, y, operator;
+let firstNum,
+  secondNum,
+  currentOperator = null;
+let operationPerformed = false;
 
 // Operator Functions
-function add(x, y) {
-  return x + y;
+function add(firstNum, secondNum) {
+  return firstNum + secondNum;
 }
 
-function subtract(x, y) {
-  return x - y;
+function subtract(firstNum, secondNum) {
+  return firstNum - secondNum;
 }
 
-function multiply(x, y) {
-  return x * y;
+function multiply(firstNum, secondNum) {
+  return firstNum * secondNum;
 }
 
-function divide(x, y) {
-  if (y === 0) {
+function divide(firstNum, secondNum) {
+  if (secondNum === 0) {
     console.log("ERROR - Cannot Divide by 0");
     updateDisplay("ERROR", true);
     // displayError("ERROR - Cannot Divide by 0");
     return "ERROR - Cannot Divide by 0";
   }
-  return x / y;
+  return firstNum / secondNum;
 }
 
 // Calculator Functions
