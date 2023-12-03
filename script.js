@@ -75,24 +75,25 @@ function setCalculationResult(result) {
 }
 
 function handleLongResult(resultStr) {
-  // TODO
   // Implement logic to handle long results (e.g., rounding, using toExponential)
   // Example: return a rounded or formatted number
   return parseFloat(resultStr).toPrecision(MAX_DISPLAY_LENGTH - 1);
 }
 
-// -> User Input
-// TODO
-function validateInput(value) {
-  if (display.textContent.length > 7 && value !== "clear") {
-    clearDisplay();
-    updateDisplay("error", "ERROR - Too Many Digits");
+function addDecimal() {
+  let currentValue = display.textContent;
+
+  // Check if decimal already exists
+  if (!currentValue.includes(".")) {
+    display.textContent = currentValue + ".";
   }
 }
 
+// -> User Input
+// TODO
+
 // TODO
 function calcInput(value) {
-  validateInput(value);
   updateDisplay("addNumber", value);
 }
 
@@ -146,6 +147,8 @@ function evaluateOp() {
   clearDisplay();
   updateDisplay(y, false);
   // setDisplay(y);
+
+  upda;
 
   setDisplay(operate(operator, x, y), false);
 
