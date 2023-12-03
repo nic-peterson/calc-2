@@ -1,9 +1,7 @@
 // Global Variables for Calculator
 const MAX_DISPLAY_LENGTH = 10; // Max number of digits to display
 let display = document.querySelector(".display");
-let firstNum,
-  secondNum,
-  currentOperator = null;
+let firstNum, secondNum, currentOperator;
 let operationPerformed = false;
 
 // Operator Functions
@@ -97,24 +95,61 @@ function addDecimal() {
 
 // TODO
 function calcInput(value) {
+  inputNumber(value);
   updateDisplay("addNumber", value);
 }
 
 // Operations
-function operate(operator, x, y) {
-  switch (operator) {
+function operate() {
+  if (secondNum === null) {
+    return firstNum; // No operation to perform
+  }
+  let result;
+  switch (currentOperator) {
     case "add":
-      return add(x, y);
+      result = add(firstNum, secondNum);
+      break;
     case "subtract":
-      return subtract(x, y);
+      result = subtract(firstNum, secondNum);
+      break;
     case "multiply":
-      return multiply(x, y);
+      result = multiply(firstNum, secondNum);
+      break;
     case "divide":
-      return divide(x, y);
+      result = divide(firstNum, secondNum);
+      break;
+    default:
+      console.error("Invalid operator");
+  }
+
+  return result;
+}
+
+function inputNumber(num) {
+  if (operationPerformed) {
+    firstNum = num;
+    operationPerformed = false;
+  } else {
+    if (currentOperator === null) {
+      firstNum = firstNum === null ? num : firstNum + num;
+    } else {
+      secondNum = secondNum === null ? num : secondNum + num;
+    }
   }
 }
 
+function inputOperator(operator) {
+  if (secondNum !== null) {
+    firstNum = operate();
+    secondNum = null;
+  }
+  currentOperator = operator;
+  operationPerformed = false;
+}
+
 // TODO -> Need to figure out logic for complex operations
+
+/*
 function setNum(num) {
   if (num === "x") {
     if (display.textContent.includes(".")) {
@@ -158,3 +193,4 @@ function evaluateOp() {
   console.log(`x: ${x} y: ${y} operator: ${operator}`);
   console.log(`x {type: ${typeof x}}: ${x} y {type: ${typeof y}}: ${y}`);
 }
+*/
