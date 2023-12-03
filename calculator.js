@@ -1,10 +1,15 @@
 // Global Variables for Calculator
+// These global variables handle calculator state & logic
+
 let firstNum = null;
 let secondNum = null;
 let currentOperator = null;
 let operationPerformed = false;
 
+// Set max display length
 const MAX_DISPLAY_LENGTH = 10; // Max number of digits to display
+
+// Initializes display and sets default to 0
 const display = document.getElementById("display");
 display.textContent = "0";
 
@@ -23,7 +28,6 @@ function multiply(firstNum, secondNum) {
 
 function divide(firstNum, secondNum) {
   if (secondNum === 0) {
-    console.log("ERROR - Cannot Divide by 0");
     return "ERROR - Cannot Divide by 0";
   }
   return firstNum / secondNum;
@@ -69,52 +73,22 @@ function inputNumber(num) {
 }
 
 function inputOperator(operator) {
-  console.log(
-    `At the start of inputOperator()\n
-    firstNum: ${firstNum}, secondNum: ${secondNum},
-    currentOperator: ${currentOperator}, 
-    operationPerformed: ${operationPerformed}`
-  );
-  if (secondNum === null) {
-    console.log(
-      `At the start of inputOperator() (secondNum === null)\n
-      firstNum: ${firstNum}, secondNum: ${secondNum},
-      currentOperator: ${currentOperator}, 
-      operationPerformed: ${operationPerformed}`
-    );
-    updateCurrentNumber();
+  if (operationPerformed) {
+    // Just update the operator if the last action was an operation
     currentOperator = operator;
-    operationPerformed = false;
-    console.log(
-      `At the end of inputOperator() (secondNum === null)\n
-      firstNum: ${firstNum}, secondNum: ${secondNum},
-      currentOperator: ${currentOperator}, 
-      operationPerformed: ${operationPerformed}`
-    );
   } else {
-    console.log(
-      `At the start of inputOperator() (secondNum !== null)\n
-      firstNum: ${firstNum}, secondNum: ${secondNum},
-      currentOperator: ${currentOperator}, 
-      operationPerformed: ${operationPerformed}`
-    );
-    const result = operate();
-    updateDisplay(result);
-    firstNum = result;
-    secondNum = null;
-    console.log(
-      `At the end of inputOperator() (secondNum !== null)\n
-      firstNum: ${firstNum}, secondNum: ${secondNum},
-      currentOperator: ${currentOperator}, 
-      operationPerformed: ${operationPerformed}`
-    );
+    if (secondNum !== null) {
+      // If there's a second number, perform the calculation
+      firstNum = operate();
+      updateDisplay(firstNum);
+      secondNum = null;
+    } else if (!firstNum) {
+      // If there's no first number, set it to the current display
+      firstNum = display.textContent;
+    }
+    currentOperator = operator;
+    operationPerformed = true; // Set the flag as an operation is now performed
   }
-  console.log(
-    `At the end of inputOperator() \n
-    firstNum: ${firstNum}, secondNum: ${secondNum},
-    currentOperator: ${currentOperator}, 
-    operationPerformed: ${operationPerformed}`
-  );
 }
 
 function inputDecimal() {
@@ -132,6 +106,7 @@ function performCalculation() {
     firstNum = result;
     secondNum = null;
     operationPerformed = true;
+    currentOperator = null;
   }
 }
 
@@ -159,5 +134,7 @@ function updateCurrentNumber() {
 }
 
 function updateDisplay(value) {
-  display.textContent = value.toString().slice(0, 10);
+  typeof value === "string"
+    ? (display.textContent = value)
+    : (display.textContent = value.toString().slice(0, MAX_DISPLAY_LENGTH));
 }
