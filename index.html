@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calc 2</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="calculator.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="calculator">
-        <div class="display"></div>
+        <div class="display" id="display"></div>
         <div class="keys">
           <button class="key-operator" onclick="inputOperator('add')">+</button>
           <button class="key-operator" onclick="inputOperator('subtract')">
@@ -22,10 +21,10 @@
           <button class="key-operator" onclick="inputOperator('divide')">
             ÷
           </button>
-          <button onclick="calcInput(7)">7</button>
+          <button onclick="inInput(7)">7</button>
           <button onclick="inputNumber(8)">8</button>
           <button onclick="inputNumber(9)">9</button>
-          <button class="key-equals" onclick="operate()">=</button>
+          <button class="key-equals" onclick="performCalculation()">=</button>
           <button onclick="inputNumber(4)">4</button>
           <button onclick="inputNumber(5)">5</button>
           <button onclick="inputNumber(6)">6</button>
@@ -34,9 +33,10 @@
           <button onclick="inputNumber(3)">3</button>
           <button class="key-zero" onclick="calcInput(0)">0</button>
           <button>.</button>
-          <button onclick="updateDisplay('clear')">C</button>
+          <button onclick="clearDisplay()">C</button>
         </div>
       </div>
     </div>
+    <script src="calculator.js"></script>
   </body>
 </html>
