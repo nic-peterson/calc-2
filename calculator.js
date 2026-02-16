@@ -10,8 +10,12 @@ let operationPerformed = false;
 const MAX_DISPLAY_LENGTH = 10; // Max number of digits to display
 
 // Initializes display and sets default to 0
-const display = document.getElementById("display");
-display.textContent = "0";
+const display =
+  typeof document !== "undefined" ? document.getElementById("display") : null;
+
+if (display) {
+  display.textContent = "0";
+}
 
 // Operator Functions
 function add(firstNum, secondNum) {
@@ -34,23 +38,25 @@ function divide(firstNum, secondNum) {
 }
 
 // Event Listeners
-const buttons = document.querySelectorAll("button");
-buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const { value, className } = button;
-    if (className.includes("number")) {
-      inputNumber(value);
-    } else if (className.includes("operator")) {
-      inputOperator(value);
-    } else if (value === ".") {
-      inputDecimal();
-    } else if (value === "=") {
-      performCalculation();
-    } else if (value === "C") {
-      clearDisplay();
-    }
+if (typeof document !== "undefined") {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const { value, className } = button;
+      if (className.includes("number")) {
+        inputNumber(value);
+      } else if (className.includes("operator")) {
+        inputOperator(value);
+      } else if (value === ".") {
+        inputDecimal();
+      } else if (value === "=") {
+        performCalculation();
+      } else if (value === "C") {
+        clearDisplay();
+      }
+    });
   });
-});
+}
 
 // User Input Functions
 function clearDisplay() {
@@ -58,11 +64,15 @@ function clearDisplay() {
   secondNum = null;
   currentOperator = null;
   operationPerformed = false;
-  display.textContent = "0";
+  if (display) {
+    display.textContent = "0";
+  }
 }
 
 function inputNumber(num) {
-  if (operationPerformed || display.textContent === "0" || currentOperator) {
+  if (!display) return;
+
+  if (operationPerformed || display.textContent === "0") {
     display.textContent = num;
     operationPerformed = false;
   } else {
@@ -92,6 +102,13 @@ function inputOperator(operator) {
 }
 
 function inputDecimal() {
+  if (!display) return;
+
+  if (operationPerformed) {
+    display.textContent = "0";
+    operationPerformed = false;
+  }
+
   if (!display.textContent.includes(".")) {
     display.textContent += ".";
   }
@@ -126,6 +143,8 @@ function operate() {
 }
 
 function updateCurrentNumber() {
+  if (!display) return;
+
   if (currentOperator === null) {
     firstNum = display.textContent;
   } else {
@@ -133,8 +152,34 @@ function updateCurrentNumber() {
   }
 }
 
+function normalizeFloat(value) {
+  return Math.round((value + Number.EPSILON) * 1e10) / 1e10;
+}
+
 function updateDisplay(value) {
-  typeof value === "string"
-    ? (display.textContent = value)
-    : (display.textContent = value.toString().slice(0, MAX_DISPLAY_LENGTH));
+  if (!display) return;
+
+  if (typeof value === "string") {
+    display.textContent = value;
+    return;
+  }
+
+  // Normalize floating-point noise (e.g., 0.1 + 0.2) before displaying.
+  const normalized = normalizeFloat(value);
+  const output = normalized.toString();
+
+  display.textContent =
+    output.length > MAX_DISPLAY_LENGTH
+      ? normalized.toPrecision(MAX_DISPLAY_LENGTH)
+      : output;
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    add,
+    subtract,
+    multiply,
+    divide,
+    normalizeFloat,
+  };
 }
